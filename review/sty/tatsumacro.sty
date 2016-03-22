@@ -1,0 +1,248 @@
+\geometry{top=14mm,bottom=14mm,left=12mm,right=12mm}
+
+
+%% 「\」を円マークに
+%%\renewcommand{\reviewbackslash}[0]{\yen}
+
+%% from review-pdfmaker
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\gtfamily\sffamily\bfseries\upshape \leftmark}
+\chead{}
+\rhead{\gtfamily\sffamily\bfseries\upshape \rightmark}
+\fancyfoot{} % clear all header and footer fields
+\fancyfoot[R] {\thepage}
+\renewcommand{\sectionmark}[1]{\markright{\thesection~#1}{}}
+\renewcommand{\chaptermark}[1]{\markboth{\prechaptername\ \thechapter\ \postchaptername~#1}{}}
+\renewcommand{\headfont}{\gtfamily\sffamily\bfseries}
+
+\fancypagestyle{plainhead}{%
+\fancyhead{}
+\fancyfoot{} % clear all header and footer fields
+\fancyfoot[R] {\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+\renewcommand{\reviewtitlefont}[0]{%
+  \usefont{T1}{phv}{b}{n}\gtfamily\ebseries}
+\renewcommand{\reviewmainfont}[0]{%
+  \usefont{T1}{phv}{m}{n}\mgfamily}
+
+\renewcommand{\reviewstrong}[1]{%
+  \gtfamily\textbf{#1}}
+
+%\renewcommand{\textbf}[1]{%
+%  {\usefont{T1}{phv}{b}{n}\gtfamily\bfseries~#1}}
+
+\urlstyle{same}
+
+%%Helveticaを使う
+\renewcommand{\sfdefault}{phv}
+
+%%全体のデフォルトを丸ゴシック+Helveticaに
+\renewcommand{\kanjifamilydefault}{\mgdefault}
+\renewcommand{\familydefault}{\sfdefault}
+
+%% 行間設定
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+%% tabulary
+\renewenvironment{reviewtable}[1]{%
+  \begin{center}\small\setlength{\baselineskip}{1.2zw}
+    \begin{tabular}{#1}}{%
+    \end{tabular}
+  \end{center}}
+
+%% @<sub>を有効に
+\makeatletter
+\let\@tmp\@xfloat
+\usepackage{fixltx2e}
+\let\@xfloat\@tmp
+\makeatother
+
+%% color
+% listingsに色をつけるのに必要
+\usepackage{color}
+
+%% listings
+\usepackage{listings, jlisting}
+%\usepackage{lstlangarm}
+\renewcommand{\lstlistingname}{リスト}
+\newcommand{\leftangle}{\texttt{\symbol{60}}}
+\newcommand{\rightangle}{\texttt{\symbol{62}}}
+\newcommand{\equal}{\texttt{\symbol{61}}}
+\newcommand{\equalspc}{\texttt{\symbol{61}\ }}
+\newcommand{\lbracket}{\texttt{\symbol{91}}}
+\newcommand{\rbracket}{\texttt{\symbol{93}}}
+\newcommand{\mast}{\texttt{\symbol{42}}}
+\newcommand{\mastspc}{\texttt{\symbol{42}\ }}
+\newcommand{\mamp}{\texttt{\symbol{38}}}
+\newcommand{\makeangle}[1]{\leftangle#1\rightangle}
+\newcommand{\makebracket}[1]{\lbracket#1\rbracket}
+\newcommand{\makequote}[1]{“#1”}
+\lstset{%
+ backgroundcolor={\color[gray]{0.9}},%
+ basicstyle={\normalsize\ttfamily},%
+% identifierstyle={\footnotesize\ttfamily},%
+% commentstyle={\footnotesize\ttfamily \color[gray]{0.3}},%
+% keywordstyle={\footnotesize\bfseries\ttfamily \color[gray]{0.1}},%
+% ndkeywordstyle={\footnotesize\ttfamily},%
+% stringstyle={\footnotesize\ttfamily \color[gray]{0.25}},
+%  basicstyle=\ttfamily\scriptsize,%
+% frame={single},
+% breaklines=true,
+% breakautoindent=false,
+% breakindent=0pt,
+ basewidth={0.5em,0.45em},
+ fontadjust=true,
+ numbers=none,%
+% xrightmargin=0zw,%
+% xleftmargin=2zw,%
+ numberstyle={\scriptsize},%
+ stepnumber=1,
+ numbersep=1em,%
+ lineskip=-0.5ex,%
+ defaultdialect=[5.0]Lua,%
+ showstringspaces=false,%
+ tabsize=2
+}
+\lstnewenvironment{lstemlisting}{%
+\renewcommand{\lstlistingname}{}}{%
+}
+
+\lstdefinelanguage{swig}{
+  keywords={\%apply, \%define, \%director, \%enddef, \%exception, \%extend, \%feature, \%fragment, \%ignore, \%immutable, \%import, \%include,
+            \%inline, \%insert, \%module, \%newobject, \%nspace, \%pragma,
+            \%rename, \%shared_ptr, \%template, \%typecheck, \%typemap},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]\"
+}
+
+\lstdefinelanguage{diff}{
+  morecomment=[f][\color{blue}]{@@},     % group identifier
+  morecomment=[f][\color{red}]-,         % deleted lines 
+  morecomment=[f][\color{darkgreen}]+,       % added lines
+  morecomment=[f][\color{magenta}]{---}, % Diff header lines (must appear after +,-)
+  morecomment=[f][\color{magenta}]{+++},
+}
+
+\lstdefinelanguage{erb}{
+}
+
+%% 付録の目次のレベルを変える
+\renewcommand{\reviewappendix}[0]{%
+%\renewcommand{\prepartname}[0]{}
+%\renewcommand{\thepart}[0]{}
+%\renewcommand{\postpartname}[0]{}
+%\part{付録}
+\rhead{}
+\appendix}
+
+%% 図をリンクに
+\renewcommand{\reviewimageref}[2]{%
+  図 \ref{#2}}
+
+%% コラムもリンクに
+\renewcommand{\reviewcolumnref}[2]{%
+  コラム「\hyperlink{#2}{#1}」}
+
+%% 表もリンクに
+\renewcommand{\reviewtableref}[2]{%
+  表 \ref{#2}}
+
+\renewcommand{\reviewminicolumntitle}[1]{%
+  {\large #1}\\}
+
+%%%quoteを構文定義につかう
+%\renewenvironment{quote}{%
+%  \begin{framed}}{%
+%  \end{framed}\vspace{2zw}}
+
+\renewenvironment{reviewbox}{%
+  \medskip\small\begin{framed}\setlength{\baselineskip}{0.8zw}\begin{alltt}}{%
+  \end{alltt}\end{framed}}
+
+%%色修正
+\definecolor{shadecolorb}{gray}{0.5}
+\definecolor{darkgreen}{rgb}{0.1,0.5,0.1}
+
+%% 部の数字をローマ数字からアラビア数字に変更
+\renewcommand{\thepart}{\@arabic\c@part}
+
+%%シングルクォート対応
+\usepackage{upquote,textcomp}
+\xspcode`'=0
+
+\usepackage{pxjahyper}
+\usepackage{eso-pic}
+
+\def\@makechapterhead#1{%
+  \vspace*{2\Cvs}% 欧文は50pt
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \hfill{\huge\headfont \@chapapp\thechapter\@chappos}
+        \par\nobreak
+        \vskip \Cvs % 欧文は20pt
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \hfill{\huge \headfont #1\par\nobreak}
+    \vspace*{-2mm}%
+    \rule{\textwidth}{0.1mm}
+    \vskip 1.5\Cvs}} % 欧文は40pt
+
+
+
+\makeatletter%%
+
+\long\def\@makecaption#1#2{{\small
+  \advance\leftskip .0628\linewidth
+  \advance\rightskip .0628\linewidth
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{\textgt{\textsf{#1}}\hskip1zw\relax \textgt{\textsf{#2}}}%
+  \ifdim \wd\@tempboxa <\hsize \centering \fi
+  \textgt{\textsf{#1}}\hskip1zw\relax \textgt{\textsf{#2}}\par
+  \vskip\belowcaptionskip}}
+
+\makeatother%% プリアンブルで定義する場合は必須(文字コードも)
+
+\sloppy
+
+%%目次と本文でページ番号を振り直しても表紙・中表紙ページと重複しないようRomanにしておく
+\pagenumbering{Roman}
+
+%\usepackage{nruby}
+
+\message{^^J}
+\message{***** Layout Info *****^^J}
+\message{\hoffset: \the\hoffset^^J}
+\message{\voffset: \the\voffset^^J}
+\message{\paperwidth: \the\paperwidth^^J}
+\message{\paperheight: \the\paperheight^^J}
+\message{\textwidth: \the\textwidth^^J}
+\message{\textheight: \the\textheight^^J}
+\message{\oddsidemargin: \the\oddsidemargin^^J}
+\message{\evensidemargin: \the\evensidemargin^^J}
+\message{\marginparwidth: \the\marginparwidth^^J}
+\message{\marginparsep: \the\marginparsep^^J}
+\message{***********************^^J}
+
+
+\newcommand\CoverPage{
+%%\put(0,255){%
+\put(0,264){%
+%\put(0,255){%
+%%\includegraphics[width=148mm,height=225mm,keepaspectratio]{./images/pcover.pdf}%
+\includegraphics[width=148mm,height=225mm,keepaspectratio]{./images/cover.jpg}%
+}}
+
+%\newcommand\CoverPage{
+%%%\put(0,255){%
+%\put(22,-22){%
+%\includegraphics[width=\paperwidth,height=\paperheight]{./images/cover.eps}
+%}}
+
