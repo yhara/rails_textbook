@@ -22,6 +22,9 @@ def conv_review
   Dir.glob("../_posts/*.md") do |file|
     content = File.read(file)
     content.gsub!(/\A.*?^# /m, "# ")
+    ### 無理やり変換
+    content.gsub!(/^コラム：([^\n]*)\n([^\n]*)\n\n/m){ "====[column] #{$1}\n\n#{$2}\n\n====[/column]\n"}
+##    content.gsub!(/^コラム：([^\n]*)\n([^\n]*)\n\n/m){ "//note[#{$1}]{\n\n#{$2}\n\n//}\n"}
     newfile = file.sub(/_posts/, "md")
     File.open(newfile, "w") do |f|
       f.write(content)
