@@ -84,7 +84,7 @@ Use Ctrl-C to stop
  * localhost:3000
 
 
-//image[welcome_rails][welcome rails(Rails5.0.0beta3以降)]{
+//image[welcome_rails][welcome rails(Rails5.0.0beta2以降)]{
 //}
 
 
