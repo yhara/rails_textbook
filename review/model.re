@@ -376,7 +376,7 @@ DB設計図（migration）からDBを作るのが @<tt>{rails db:migrate} コマ
 
 
 
-//image[create-overview][BooksController create アクション]{
+//image[create-overview_2][BooksController create アクション]{
 //}
 
 

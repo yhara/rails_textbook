@@ -368,7 +368,7 @@ RailsアプリはつくられたHTMLをレスポンスとしてブラウザに�
 
 
 
-//image[index_flow][Railsアプリがリクエストを受けてレスポンスを返すまで（indexアクション）]{
+//image[index_flow_2][Railsアプリがリクエストを受けてレスポンスを返すまで（indexアクション）]{
 //}
 
 
@@ -378,7 +378,7 @@ RailsアプリはつくられたHTMLをレスポンスとしてブラウザに�
 
 
 
-//image[index_page_with_data][index画面]{
+//image[index_page_with_data_2][index画面]{
 //}
 
 

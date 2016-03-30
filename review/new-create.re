@@ -514,7 +514,7 @@ end
 //}
 
 
-//image[create-controller][create - ここまでの流れ]{
+//image[create-controller_2][create - ここまでの流れ]{
 //}
 
 
