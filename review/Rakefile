@@ -17,6 +17,21 @@ def build_all(mode)
   sh "review-compile --all --target=#{mode} --footnotetext --stylesheet=style.css"
 end
 
+def rename_image(content, newfile, filename, imagename, imageext)
+  bsname = File.basename(newfile,".md")
+  if bsname == filename
+    n = 0
+    content.gsub!(/#{imagename}\.#{imageext}/) do |i|
+      n+=1
+      if n > 1
+        "#{imagename}_#{n}.#{imageext}"
+      else
+        "#{imagename}.#{imageext}"
+      end
+    end
+  end
+end
+
 def conv_review
   FileUtils.mkdir_p("md")
   Dir.glob("../_posts/*.md") do |file|
@@ -26,6 +41,14 @@ def conv_review
     content.gsub!(/^コラム：([^\n]*)\n([^\n]*)\n\n/m){ "====[column] #{$1}\n\n#{$2}\n\n====[/column]\n"}
 ##    content.gsub!(/^コラム：([^\n]*)\n([^\n]*)\n\n/m){ "//note[#{$1}]{\n\n#{$2}\n\n//}\n"}
     newfile = file.sub(/_posts/, "md")
+
+    rename_image(content, newfile, "2014-06-01-smallest-app", "time_now", "png")
+    rename_image(content, newfile, "2014-06-01-smallest-app", "rails_app_request_to_response", "png")
+    rename_image(content, newfile, "2014-07-01-crud", "index_flow", "png")
+    rename_image(content, newfile, "2014-07-01-crud", "index_page_with_data", "png")
+    rename_image(content, newfile, "2014-08-01-new-create", "create-controller", "png")
+    rename_image(content, newfile, "2014-09-01-model", "create-overview", "png")
+
     File.open(newfile, "w") do |f|
       f.write(content)
     end
@@ -48,6 +71,12 @@ def conv_review
   end
 
   FileUtils.cp("../assets/my-first-web-app/welcome_rails.png", "../review/images/smallest-app/")
+  FileUtils.cp("../assets/smallest-app/time_now.png", "../review/images/smallest-app/time_now_2.png")
+  FileUtils.cp("../assets/smallest-app/kn/rails_app_request_to_response.png", "../review/images/smallest-app/rails_app_request_to_response_2.png")
+  FileUtils.cp("../assets/crud/kn/index_flow.png", "../review/images/crud/index_flow_2.png")
+  FileUtils.cp("../assets/crud/index_page_with_data.png", "../review/images/crud/index_page_with_data_2.png")
+  FileUtils.cp("../assets/new-create/kn/create-controller.png", "../review/images/new-create/create-controller_2.png")
+  FileUtils.cp("../assets/model/kn/create-overview.png", "../review/images/model/create-overview_2.png")
 end
 
 task :default => :all
