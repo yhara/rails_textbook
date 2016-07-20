@@ -154,6 +154,8 @@ rails c
 //}
 
 //cmd{
+Running via Spring preloader in process 53813
+Loading development environment (Rails 5.0.0)
 irb(main):001:0> #ここにコードを入力します
 //}
 
@@ -205,7 +207,7 @@ Bookモデルにはコードがほとんどありません。
 === 問 : saveやallといったメソッドが使えるのはなぜでしょうか？
 
 
-答えは @<tt>{ApplicationRecord} クラスを継承しているからです。 @<tt>{ApplicationRecord} クラスがモデルの仕事に必要な機能を持っています。それを継承しているBookクラスも同じ機能を持ちます（Rails 4.2の場合、@<tt>{ApplicationRecord}の替わりに@<tt>{ActiveRecord::Base}が使われていますが、考え方は同じです）。
+答えは @<tt>{ApplicationRecord} クラスを継承しているからです。 @<tt>{ApplicationRecord} クラスがモデルの仕事に必要な機能を持っています。それを継承しているBookクラスも同じ機能を持ちます。@<fn>{1}
 
 
 === 問 : titleやmemoといった要素があることをどこで知るのでしょうか？
@@ -245,7 +247,7 @@ ApplicationRecordはデータベースから情報を得て、Bookモデルにti
 == データベースはいつ作られたのか？
 
 
-books appを作る一連のコマンドを入力した際に、以下のコマンドでDBを作成していました@<fn>{1}。
+books appを作る一連のコマンドを入力した際に、以下のコマンドでDBを作成していました@<fn>{2}。
 
 
 //cmd{
@@ -840,4 +842,6 @@ end
 各画面にAuthor欄が追加されて、登録できるようになりました。
 
 
-//footnote[1][Rails4.2以前では @<tt>{rails db:migrate} の替わりに @<tt>{bin/rake db:migrate} となります。]
+//footnote[1][Rails 4.2の場合、@<tt>{ApplicationRecord}の替わりに@<tt>{ActiveRecord::Base}が使われていますが、考え方は同じです。]
+
+//footnote[2][Rails4.2以前では @<tt>{rails db:migrate} の替わりに @<tt>{bin/rake db:migrate} となります。]

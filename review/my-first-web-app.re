@@ -40,7 +40,7 @@ $ rails new blog_app
       create  README.rdoc
       create  Rakefile
 ... (略)
-Your bundle is complete!
+Bundle complete! 15 Gemfile dependencies, 63 gems now installed.
 Use `bundle show [gemname]` to see where a bundled gem is installed.
          run  bundle exec spring binstub --all
 * bin/rake: spring inserted
@@ -48,7 +48,7 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
 //}
 
 
-ターミナルの画面にこのように"Your bundle is complete!"と表示されれば成功です。railsコマンドはたくさんのフォルダとファイルを自動で作ります。
+ターミナルの画面にこのように"Bundle complete!"と表示されれば成功です。railsコマンドはたくさんのフォルダとファイルを自動で作ります。
 
 
 
@@ -67,11 +67,10 @@ rails s
 //cmd{
 $ rails s
 => Booting Puma
-=> Rails 5.0.0.beta3 application starting in development on http://localhost:3000
+=> Rails 5.0.0 application starting in development on http://localhost:3000
 => Run `rails server -h` for more startup options
-=> Ctrl-C to shutdown server
 Puma starting in single mode...
-* Version 3.2.0 (ruby 2.3.0-p0), codename: Spring Is A Heliocentric Viewpoint
+* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
 * Min threads: 5, max threads: 5
 * Environment: development
 * Listening on tcp://localhost:3000
@@ -84,7 +83,7 @@ Use Ctrl-C to stop
  * localhost:3000
 
 
-//image[welcome_rails][welcome rails(Rails5.0.0beta2以降)]{
+//image[welcome_rails][welcome rails(Rails5.0.0以降)]{
 //}
 
 
@@ -113,24 +112,23 @@ rails s
 
 //cmd{
 $ rails g scaffold entry title description:text picture
-Running via Spring preloader in process 79311
+Running via Spring preloader in process 45698
       invoke  active_record
-      create    db/migrate/20160321073712_create_entries.rb
+      create    db/migrate/20160702012758_create_entries.rb
 ...(略)
 
 $ rails db:migrate
-== 20160321073712 CreateEntries: migrating ====================================
+== 20160702012758 CreateEntries: migrating ====================================
 -- create_table(:entries)
-   -> 0.0011s
-== 20160321073712 CreateEntries: migrated (0.0011s) ===========================
+   -> 0.0012s
+== 20160702012758 CreateEntries: migrated (0.0013s) ===========================
 
 $ rails s
 => Booting Puma
-=> Rails 5.0.0.beta3 application starting in development on http://localhost:3000
+=> Rails 5.0.0 application starting in development on http://localhost:3000
 => Run `rails server -h` for more startup options
-=> Ctrl-C to shutdown server
 Puma starting in single mode...
-* Version 3.2.0 (ruby 2.3.0-p0), codename: Spring Is A Heliocentric Viewpoint
+* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
 * Min threads: 5, max threads: 5
 * Environment: development
 * Listening on tcp://localhost:3000
@@ -185,13 +183,12 @@ Fetching gem metadata from https://rubygems.org/...........
 Fetching version metadata from https://rubygems.org/...
 Fetching dependency metadata from https://rubygems.org/..
 Resolving dependencies...
-Using rake 11.1.1
 ...
-Installing carrierwave 0.10.0
-Bundle complete! 16 Gemfile dependencies, 64 gems now installed.
+Installing carrierwave 0.11.2
+Bundle complete! 16 Gemfile dependencies, 66 gems now installed.
 Use `bundle show [gemname]` to see where a bundled gem is installed.
 $ rails g uploader Picture
-Running via Spring preloader in process 80021
+Running via Spring preloader in process 47336
       create  app/uploaders/picture_uploader.rb
 //}
 
@@ -212,7 +209,7 @@ class Entry < ApplicationRecord
 //}
 
 
-さらに、@<tt>{app/views/entries/_form.html.erb}を以下のように編集します（- 記号の行を削除して、かわりに + 記号の行を追加してください）。
+さらに、@<tt>{app/views/entries/_form.html.erb}の以下の部分を編集します（- 記号の行を削除して、かわりに + 記号の行を追加してください）。
 
 
 //emlist[][diff]{
@@ -240,11 +237,10 @@ rails s
 //cmd{
 $ rails s
 => Booting Puma
-=> Rails 5.0.0.beta3 application starting in development on http://localhost:3000
+=> Rails 5.0.0 application starting in development on http://localhost:3000
 => Run `rails server -h` for more startup options
-=> Ctrl-C to shutdown server
 Puma starting in single mode...
-* Version 3.2.0 (ruby 2.3.0-p0), codename: Spring Is A Heliocentric Viewpoint
+* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
 * Min threads: 5, max threads: 5
 * Environment: development
 * Listening on tcp://localhost:3000

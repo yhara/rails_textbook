@@ -22,7 +22,7 @@ rails new helloworld
 $ rails new helloworld
       create
 ... (略)
-Your bundle is complete!
+Bundle complete! 15 Gemfile dependencies, 63 gems now installed.
 Use `bundle show [gemname]` to see where a bundled gem is installed.
          run  bundle exec spring binstub --all
 * bin/rake: spring inserted
@@ -41,11 +41,10 @@ rails s
 //cmd{
 $ rails s
 => Booting Puma
-=> Rails 5.0.0.beta3 application starting in development on http://localhost:3000
+=> Rails 5.0.0 application starting in development on http://localhost:3000
 => Run `rails server -h` for more startup options
-=> Ctrl-C to shutdown server
 Puma starting in single mode...
-* Version 3.2.0 (ruby 2.3.0-p0), codename: Spring Is A Heliocentric Viewpoint
+* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
 * Min threads: 5, max threads: 5
 * Environment: development
 * Listening on tcp://localhost:3000
@@ -79,7 +78,7 @@ rails g controller hello index
 
 //cmd{
 $ rails g controller hello index
-Running via Spring preloader in process 82284
+Running via Spring preloader in process 50811
       create  app/controllers/hello_controller.rb
        route  get 'hello/index'
       invoke  erb
@@ -93,8 +92,8 @@ Running via Spring preloader in process 82284
       invoke  assets
       invoke    coffee
       create      app/assets/javascripts/hello.coffee
-      invoke    css
-      create      app/assets/stylesheets/hello.css
+      invoke    scss
+      create      app/assets/stylesheets/hello.scss
 //}
 
 
@@ -112,11 +111,10 @@ rails s
 //cmd{
 $ rails s
 => Booting Puma
-=> Rails 5.0.0.beta3 application starting in development on http://localhost:3000
+=> Rails 5.0.0 application starting in development on http://localhost:3000
 => Run `rails server -h` for more startup options
-=> Ctrl-C to shutdown server
 Puma starting in single mode...
-* Version 3.2.0 (ruby 2.3.0-p0), codename: Spring Is A Heliocentric Viewpoint
+* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
 * Min threads: 5, max threads: 5
 * Environment: development
 * Listening on tcp://localhost:3000
@@ -250,7 +248,7 @@ Webサーバ上で動作しているWebアプリはリクエストを受け取�
 
 
 
-Webサーバとはなにものなのでしょうか？Webサーバは「Webサービスを提供する場合に必要な共通の機能を提供するもの」と言えます。Webアプリはブラウザとのやりとりで必要な機能のうち、どのサービスでも使う機能はWebサーバに仕事をまかせ、自分のサービスで必要なオリジナルな機能を提供することになります。Rubyには標準でWEBrickというWebサーバが用意されていて、rails sをしたときに起動するようになっています。実際のWebサービスを運用して提供する場合は、nginxやApacheといったWebサーバを使うことが多いです。
+Webサーバとはなにものなのでしょうか？Webサーバは「Webサービスを提供する場合に必要な共通の機能を提供するもの」と言えます。Webアプリはブラウザとのやりとりで必要な機能のうち、どのサービスでも使う機能はWebサーバに仕事をまかせ、自分のサービスで必要なオリジナルな機能を提供することになります。RailsではpumaというWebサーバを利用し、rails sをしたときに起動するようになっています。実際のWebサービスを運用して提供する場合は、nginxやApacheといったWebサーバを使うことが多いです。
 
 
 
@@ -358,20 +356,20 @@ rails gコマンドはひな形を作成しますが、場合によってはこ�
 //cmd{
 $ rails new helloworld
 create
-create  README.rdoc
+create  README.md
 create  Rakefile
 create  config.ru
 create  .gitignore
 create  Gemfile
 create  app
+create  app/assets/config/manifest.js
 create  app/assets/javascripts/application.js
+create  app/assets/javascripts/cable.js
 create  app/assets/stylesheets/application.css
+create  app/channels/application_cable/channel.rb
+create  app/channels/application_cable/connection.rb
 create  app/controllers/application_controller.rb
 create  app/helpers/application_helper.rb
-create  app/views/layouts/application.html.erb
-create  app/assets/images/.keep
-create  app/mailers/.keep
-create  app/models/.keep
 ... (略)
 //}
 
@@ -397,22 +395,22 @@ rails g controller hello index
 
 //cmd{
 $ rails g controller hello index
-create  app/controllers/hello_controller.rb
- route  get 'hello/index'
-invoke  erb
-create    app/views/hello
-create    app/views/hello/index.html.erb
-invoke  test_unit
-create    test/controllers/hello_controller_test.rb
-invoke  helper
-create    app/helpers/hello_helper.rb
-invoke    test_unit
-create      test/helpers/hello_helper_test.rb
-invoke  assets
-invoke    coffee
-create      app/assets/javascripts/hello.js.coffee
-invoke    scss
-create      app/assets/stylesheets/hello.css.scss
+Running via Spring preloader in process 50811
+  create  app/controllers/hello_controller.rb
+   route  get 'hello/index'
+  invoke  erb
+  create    app/views/hello
+  create    app/views/hello/index.html.erb
+  invoke  test_unit
+  create    test/controllers/hello_controller_test.rb
+  invoke  helper
+  create    app/helpers/hello_helper.rb
+  invoke    test_unit
+  invoke  assets
+  invoke    coffee
+  create      app/assets/javascripts/hello.coffee
+  invoke    scss
+  create      app/assets/stylesheets/hello.scss
 //}
 
 
@@ -424,7 +422,7 @@ create      app/assets/stylesheets/hello.css.scss
 
 
 
-ここで生成されたファイルのうち、特に重要なのは以下の3つのファイルです。
+ここで生成、追記されたファイルのうち、特に重要なのは以下の3つのファイルです。
 
  * app/controllers/hello_controller.rb
  * app/views/hello/index.html.erb

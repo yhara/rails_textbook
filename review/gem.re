@@ -26,7 +26,8 @@ $ gem i awesome_print
 //}
 
 //cmd{
-Successfully installed awesome_print-1.6.1
+Fetching: awesome_print-1.7.0.gem (100%)
+Successfully installed awesome_print-1.7.0
 1 gem installed
 //}
 
@@ -91,7 +92,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 5.0.0.beta3', '< 5.1'
+gem 'rails', '~> 5.0.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 ...
@@ -102,7 +103,7 @@ Railsアプリは最初に作った状態ですでに10個以上のgemが登録�
 
 
 //emlist[][diff]{
-gem 'rails', '>= 5.0.0.beta3', '< 5.1'
+gem 'rails', '~> 5.0.0'
 + gem 'awesome_print'
 //}
 
@@ -112,13 +113,12 @@ gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 
 //cmd{
 $ bundle
-Using rake 11.1.1
+Using rake 11.2.2
 ...
-Bundle complete! 15 Gemfile dependencies, 63 gems now installed.
+Using awesome_print 1.7.0
+...
+Bundle complete! 16 Gemfile dependencies, 64 gems now installed.
 Use `bundle show [gemname]` to see where a bundled gem is installed.
-         run  bundle exec spring binstub --all
-* bin/rake: spring inserted
-* bin/rails: spring inserted
 //}
 
 
@@ -135,13 +135,13 @@ $ rails c
 ]
 => nil
 > ap Book.first
-  Book Load (0.8ms)  SELECT  "books".* FROM "books" ORDER BY "books"."id" ASC LIMIT ?  [["LIMIT", 1]]
-#<Book:0x007fb333c7e028> {
+  Book Load (0.2ms)  SELECT  "books".* FROM "books" ORDER BY "books"."id" ASC LIMIT ?  [["LIMIT", 1]]
+#<Book:0x007fc943e0bf78> {
             :id => 1,
          :title => "四月は君の嘘",
-          :memo => "ピアニストの少年とバイオリニストの少女による音楽と青春の物語",
-    :created_at => Sun, 27 Dec 2015 07:27:40 UTC +00:00,
-    :updated_at => Sun, 27 Dec 2015 07:27:40 UTC +00:00
+          :memo => "ピアニストの少年とバイオリニストの少女による音楽と青春の話",
+    :created_at => Sat, 02 Jul 2016 02:44:08 UTC +00:00,
+    :updated_at => Sat, 02 Jul 2016 02:44:08 UTC +00:00
 }
 => nil
 //}
@@ -183,11 +183,11 @@ gem 'uglifier', '>= 1.3.0'
 
 
 //emlist[][ruby]{
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2'
 //}
 
 
- ~> という記号、このケースでは、@<tt>{>= 4.1.0} かつ @<tt>{< 4.2} という意味になります。小さいバージョンアップは受け入れて、大きなバージョンアップは受け入れない、という記号です。
+ ~> という記号、このケースでは、@<tt>{>= 4.2.0} かつ @<tt>{< 4.3} という意味になります。小さいバージョンアップは受け入れて、大きなバージョンアップは受け入れない、という記号です。
 
 
 
