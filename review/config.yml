@@ -4,6 +4,8 @@
 # 生成されます。
 # このファイルはUTF-8エンコーディングで記述してください。
 
+review_version: 2.0
+
 # ブック名(ファイル名になるもの。ASCII範囲の文字を使用)
 bookname: book
 # 記述言語。省略した場合はja
@@ -94,7 +96,7 @@ secnolevel: 3
 # appendix_format: null
 
 # 表紙にするHTMLファイル。ファイル名を指定すると表紙として入る
-cover: cover.html
+#cover: cover.html
 # 表紙に配置し、書籍の影絵にも利用する画像ファイル。省略した場合はnull (画像を使わない)
 coverimage: cover.jpg
 # 表紙の後に大扉ページを作成するか。省略した場合はnull (作成しない)
@@ -185,9 +187,13 @@ colophon: true
 # fontdir内から取り込まれる対象となるファイル拡張子。省略した場合は以下
 # font_ext: ["ttf", "woff", "otf"]
 
-texdocumentclass: ["jsbook", "a5paper,14pt,oneside"]
+texdocumentclass: ["jsbook", "a5paper,14pt,oneside,uplatex"]
 texstyle: tatsumacro
 debug: true
 highlight:
   latex: listings
   html: pygments
+
+webmaker:
+  stylesheet: ["style.css", "style-web.css"]
+  javascript: ["webmaker.js"]
