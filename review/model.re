@@ -342,7 +342,7 @@ textもデータの型で（stringよりも多く）文字列を格納できま�
 
 
 
-ここまでで、scaffoldはDB設計図（migration）を作ることを説明しました
+ここまでで、scaffoldはDB設計図（migration）を作ることを説明しました。
 
 
 
@@ -697,9 +697,7 @@ $ rails db:migrate
 
 === viewを修正
 
-
-フォームパーシャル
-
+==== フォームパーシャル
 
 
 @<tt>{app/views/books/_form.html.erb}
@@ -729,9 +727,7 @@ $ rails db:migrate
 <% end %>
 //}
 
-
-詳細表示画面
-
+==== 詳細表示画面
 
 
 @<tt>{app/views/books/show.html.erb}
@@ -759,9 +755,7 @@ $ rails db:migrate
 <%= link_to 'Back', books_path %>
 //}
 
-
-一覧表示画面
-
+==== 一覧表示画面
 
 
 @<tt>{app/views/books/index.html.erb}

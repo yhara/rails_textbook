@@ -193,7 +193,7 @@ Running via Spring preloader in process 47336
 //}
 
 
-次にファイルを編集します。@<tt>{app/models/entry.rb}を開いて、次の行
+次にファイルを編集します。@<tt>{app/models/entry.rb}を開いて、次の行、
 
 
 //emlist[][ruby]{
