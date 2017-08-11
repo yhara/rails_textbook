@@ -1,13 +1,11 @@
 source "https://rubygems.org"
 
 gem "jekyll"
+# For jekyll extension
+gem 'redcarpet'
+gem 'pygments.rb'
 
-# Foe Github pages
+# For Github pages
 gem "github-pages"
-
-# For epub
-gem "maliq"
-gem "ruby-aaws"
-gem "iconv"
 
 
