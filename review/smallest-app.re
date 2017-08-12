@@ -610,7 +610,7 @@ HTMLのpタグがあります。その中にHTMLではない @<tt>{<%=} と @<tt
 
 
 
-//image[time_jst][ブラウザからビューがつくったHTMLを確認]{
+//image[time_jst_2][ブラウザからビューがつくったHTMLを確認]{
 //}
 
 

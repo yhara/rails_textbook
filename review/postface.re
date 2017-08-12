@@ -63,7 +63,7 @@ Railsの基礎から応用まで網羅した書籍です。実際にRailsでプ�
 Rubyの教科書といえばこの本、という名著です。分かり易く、丁寧に、かつ網羅的にRubyの説明をしています。最新の第五版が2016年2月に発売されています。
 
  * プログラミング入門　- Rubyを使って -
- ** @<href>{http://www.ie.u-ryukyu.ac.jp/~kono/software/s04/tutorial/Chapter=Contents.html,http://www.ie.u-ryukyu.ac.jp/~kono/software/s04/tutorial/Chapter=Contents.html}
+ ** @<href>{http://www.ie.u-ryukyu.ac.jp/~kono/software/s04/tutorial/,http://www.ie.u-ryukyu.ac.jp/~kono/software/s04/tutorial/}
 
 
 

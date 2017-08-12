@@ -42,7 +42,7 @@ def conv_review
 ##    content.gsub!(/^コラム：([^\n]*)\n([^\n]*)\n\n/m){ "//note[#{$1}]{\n\n#{$2}\n\n//}\n"}
     newfile = file.sub(/..\/_posts/, "md")
 
-    rename_image(content, newfile, "2014-06-01-smallest-app", "time_now", "png")
+    rename_image(content, newfile, "2014-06-01-smallest-app", "time_jst", "png")
     rename_image(content, newfile, "2014-06-01-smallest-app", "rails_app_request_to_response", "png")
     rename_image(content, newfile, "2014-07-01-crud", "index_flow", "png")
     rename_image(content, newfile, "2014-07-01-crud", "index_page_with_data", "png")
