@@ -40,7 +40,7 @@ def conv_review
     ### 無理やり変換
     content.gsub!(/^コラム：([^\n]*)\n([^\n]*)\n\n/m){ "====[column] #{$1}\n\n#{$2}\n\n====[/column]\n"}
 ##    content.gsub!(/^コラム：([^\n]*)\n([^\n]*)\n\n/m){ "//note[#{$1}]{\n\n#{$2}\n\n//}\n"}
-    newfile = file.sub(/_posts/, "md")
+    newfile = file.sub(/..\/_posts/, "md")
 
     rename_image(content, newfile, "2014-06-01-smallest-app", "time_now", "png")
     rename_image(content, newfile, "2014-06-01-smallest-app", "rails_app_request_to_response", "png")
@@ -54,15 +54,17 @@ def conv_review
     end
   end
 
-  Dir.glob("../md/*.md") do |file|
+  Dir.glob("./md/*.md") do |file|
     newfile = file.gsub(/\.md/, ".re")
-    newfile.gsub!(/md\//, "review/")
+    newfile.gsub!(/md\//, "../review/")
     newfile.gsub!(/201\d-\d\d-\d\d-/, "")
-    system("md2review --render-enable-cmd --parse-no-intra-emphasis #{file} > #{newfile}")
+    cline = "md2review --render-enable-cmd --parse-no-intra-emphasis #{file} > #{newfile}"
+    p cline
+    system(cline)
   end
 
   Dir.glob("../assets/**/*.png") do |file|
-    newfile = file.gsub(/assets\//, "review/images/")
+    newfile = file.gsub(/assets\//, "../review/images/")
     newfile.downcase!
     newfile.gsub!(/kn\//, "")
     dir = File.dirname(newfile)
@@ -71,7 +73,7 @@ def conv_review
   end
 
   FileUtils.cp("../assets/my-first-web-app/welcome_rails.png", "../review/images/smallest-app/")
-  FileUtils.cp("../assets/smallest-app/time_now.png", "../review/images/smallest-app/time_now_2.png")
+#  FileUtils.cp("../assets/smallest-app/time_now.png", "../review/images/smallest-app/time_now_2.png")
   FileUtils.cp("../assets/smallest-app/kn/rails_app_request_to_response.png", "../review/images/smallest-app/rails_app_request_to_response_2.png")
   FileUtils.cp("../assets/crud/kn/index_flow.png", "../review/images/crud/index_flow_2.png")
   FileUtils.cp("../assets/crud/index_page_with_data.png", "../review/images/crud/index_page_with_data_2.png")

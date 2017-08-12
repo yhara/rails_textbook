@@ -145,7 +145,7 @@ whereメソッドを使うと検索ができます。タイトルが"ハチミ�
 == 実習 : rails consoleでモデルを使う
 
 
-Railsには "rails cosole" という、Rubyでいうirbのような、1行ずつコードを実行する機能があります。前準備でつくったアプリへ移動して、rails consoleを使ってみましょう。ターミナルで@<tt>{rails c}と実行してみてください（cはconsoleの頭文字です）。
+Railsには "rails console" という、Rubyでいうirbのような、1行ずつコードを実行する機能があります。前準備でつくったアプリへ移動して、rails consoleを使ってみましょう。ターミナルで@<tt>{rails c}と実行してみてください（メッセージ中"in process 53813"の数字は実行するたびに異なります）。cはconsoleの頭文字です。
 
 
 //cmd{
@@ -154,13 +154,14 @@ rails c
 //}
 
 //cmd{
-Running via Spring preloader in process 53813
-Loading development environment (Rails 5.0.0)
+$ rails c
+Running via Spring preloader in process 14067
+Loading development environment (Rails 5.1.2)
 irb(main):001:0> #ここにコードを入力します
 //}
 
 
-以下のコードを実行してみてください。
+rails consoleで以下のコードを実行してみてください。
 
 
 //emlist[][ruby]{
@@ -182,7 +183,7 @@ rails s
 //}
 
 
-ブラウザで http://localhost:3000/books へアクセスしてみましょう。
+ブラウザで http://localhost:3000/books へアクセスして確認してみましょう。
 
 
 == モデルの仕組み
@@ -207,7 +208,7 @@ Bookモデルにはコードがほとんどありません。
 === 問 : saveやallといったメソッドが使えるのはなぜでしょうか？
 
 
-答えは @<tt>{ApplicationRecord} クラスを継承しているからです。 @<tt>{ApplicationRecord} クラスがモデルの仕事に必要な機能を持っています。それを継承しているBookクラスも同じ機能を持ちます。@<fn>{1}
+答えは @<tt>{ApplicationRecord} クラスを継承しているからです。 @<tt>{ApplicationRecord} クラスがモデルの仕事に必要な機能を持っています。それを継承しているBookクラスも同じ機能を持ちます。
 
 
 === 問 : titleやmemoといった要素があることをどこで知るのでしょうか？
@@ -247,7 +248,7 @@ ApplicationRecordはデータベースから情報を得て、Bookモデルにti
 == データベースはいつ作られたのか？
 
 
-books appを作る一連のコマンドを入力した際に、以下のコマンドでDBを作成していました@<fn>{2}。
+books appを作る一連のコマンドを入力した際に、以下のコマンドでDBを作成していました。
 
 
 //cmd{
@@ -276,7 +277,7 @@ DBの設計図をマイグレーション（migration）ファイルと呼びま
 
 
 
-では、マイグレーションファイルを見てみましょう。
+では、マイグレーションファイルを見てみましょう。ファイル名中の"20160214232240"といった数字の部分は実行日の日付が入っているので、本書とは異なるファイル名になっているはずです。
 
 
 
@@ -284,7 +285,7 @@ DBの設計図をマイグレーション（migration）ファイルと呼びま
 
 
 //emlist[][ruby]{
-class CreateBooks < ActiveRecord::Migration[5.0]
+class CreateBooks < ActiveRecord::Migration[5.1]
   def change
     create_table :books do |t|
       t.string :title
@@ -295,6 +296,10 @@ class CreateBooks < ActiveRecord::Migration[5.0]
   end
 end
 //}
+
+
+1行目の @<tt>{ActiveRecord::Migration[5.1]} の末尾にある数字はRailsのバージョンを表します。Rails5.1.xではこのように5.1となります。
+
 
 
 3行目の @<tt>{create_table :books} でbooksという名前のテーブルを作ります。DBはテーブルという単位でデータを管理します。このアプリの、本に関するデータを保存するために、booksという名前のテーブルを作っています。テーブル名はモデル名の複数形にするというルールがあります。
@@ -374,7 +379,7 @@ DB設計図（migration）からDBを作るのが @<tt>{rails db:migrate} コマ
 == 保存したあとの処理
 
 
-では、コントローラの処理の話に戻りましょう。@<tt>{@book.save} した後の動作を見て行きます。以下の2.本のデータを保存する処理のあと、保存の結果が成功か失敗かによって処理が分岐します。成功した場合は3a. show画面へ、失敗した場合は3b. 失敗したらnew画面へ分岐します。
+では、コントローラの処理の話に戻りましょう。@<tt>{@book.save} した後の動作を見て行きます。以下の2.本のデータを保存する処理のあと、保存結果が成功か失敗かによって処理が分岐します。成功した場合は3a. show画面へ、失敗した場合は3b. 失敗したらnew画面へ分岐します。
 
 
 
@@ -433,7 +438,7 @@ end
 
 
 
-//image[summary_rake_db_migrate][rails db migrate コマンドがDBを作る]{
+//image[summary_rails_db_migrate][rails db migrate コマンドがDBを作る]{
 //}
 
 
@@ -452,7 +457,7 @@ book = Book.new(title: "ハチミツとクローバー",
 //}
 
 
-Book.newでBook Modelオブジェクトを作ります。モデル名は英語の単数形にするルールがあります。引数でtitle、modelといった各カラムのデータを渡せます。
+Book.newでBook Modelオブジェクトを作ります。モデル名は英語の単数形にするルールがあります。引数でtitle、memoといった各カラムのデータを渡せます。
 
 
 //emlist[][ruby]{
@@ -472,7 +477,7 @@ Book.allでDBに保存されているBook Modelの全データを取得できま
 
 
 //emlist[][ruby]{
-book = Book.where(title: "ハチミツとクローバー")
+book = Book.where(title: "ハチミツとクローバー").first
 book.title #=> "ハチミツとクローバー"
 book.memo #=> "美大を舞台にした青春ラブコメ"
 //}
@@ -491,6 +496,7 @@ whereメソッドを使うと検索ができます。タイトルが"ハチミ�
  * マイグレーション（migration）ファイルはDBを作るための設計図
  * rails db:migrateはマイグレーションファイルからDBを作るコマンド
 
+
 == さらに学びたい場合は
 
 
@@ -507,14 +513,15 @@ whereメソッドを使うと検索ができます。タイトルが"ハチミ�
  * @<href>{http://railsguides.jp/association_basics.html,Rails Guides : Active Record の関連付け}
  ** 複数のモデルを結び付ける「関連付け」の機能は強力でアプリを作る際に大変便利です。ちょっととっつき難いですが、ぜひチャレンジしてみてください。
 
-== 応用編：既存のDBテーブルにカラムを増やすには？
+
+== 既存のDBテーブルにカラムを増やすには？
 
 
 既存のDBテーブルにカラムを増やすにはどうすれば良いでしょうか？前に作ったmigrationファイルを編集してもうまくいきません。 migration各ファイルは1回だけ実行される仕組みなので、すでに存在しているmigrationファイルを変更しても、そのファイルは実行されないからです。そこで、新しいカラムを追加するには、新しいmigrationファイルを作ります。
 
 
 
-rails gコマンドにmigrationを指定するとmigrationファイルだけを生成できます。たとえば、booksテーブルにstring型のauthorを加えるには以下のようにします。
+rails gコマンドにmigrationを指定するとmigrationファイルだけを生成できます。たとえば、booksテーブルにstring型のauthorを加えるには以下のようにします（ファイル名中の"20160215230716"は実行するごとに異なります）。
 
 
 //emlist[][bash]{
@@ -531,9 +538,8 @@ $ rails g migration AddAuthorToBooks author:string
 rails g migrationコマンドの基本形は以下になります。
 
 
-//quote{
-$ rails g migration Addカラム名Toテーブル名 カラム名:型名
-
+//emlist[][bash]{
+rails g migration Addカラム名Toテーブル名 カラム名:型名
 //}
 
 
@@ -545,7 +551,7 @@ $ rails g migration Addカラム名Toテーブル名 カラム名:型名
 //}
 
 //emlist[][ruby]{
-class AddAuthorToBooks < ActiveRecord::Migration[5.0]
+class AddAuthorToBooks < ActiveRecord::Migration[5.1]
   def change
     add_column :books, :author, :string
   end
@@ -595,7 +601,7 @@ $ rails db:migrate
 
 
 
-== 応用編：新しいモデルとmigrationを一緒に作るには？
+== 新しいモデルとmigrationを一緒に作るには？
 
 
 rails gコマンドにmodelを指定するとmodelとmigrationを生成できます。
@@ -610,7 +616,7 @@ db/migrate/20160216060032_create_books.rb
 app/models/book.rb
 //}
 
-== 応用編：rails gコマンドまとめ
+== rails gコマンドまとめ
 
 
 rails gコマンドの一覧をまとめます。
@@ -648,7 +654,7 @@ scaffold = model + migration + routes + controller + view
 $ rails g scaffold book title:string memo:text
 //}
 
-== 応用編：scaffoldでつくったMigration、Model、Controllerへカラムを追加するには？
+== scaffoldでつくったMigration、Model、Controllerへカラムを追加するには？
 
 
 すでにあるbooksテーブルにstring型のauthorを加えて、ブラウザから入力できるようにしてみましょう。
@@ -675,7 +681,7 @@ $ rails g migration AddAuthorToBooks author:string
 
 
 //emlist[][ruby]{
-class AddAuthorToBooks < ActiveRecord::Migration[5.0]
+class AddAuthorToBooks < ActiveRecord::Migration[5.1]
   def change
     add_column :books, :author, :string
   end
@@ -704,21 +710,21 @@ $ rails db:migrate
 
 
 //emlist[][diff]{
-<%= form_for(book) do |f| %>
+<%= form_with(model: book, local: true) do |form| %>
 ...
   <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+    <%= form.label :title %>
+    <%= form.text_field :title, id: :book_title %>
   </div>
 
   <div class="field">
-    <%= f.label :memo %>
-    <%= f.text_area :memo %>
+    <%= form.label :memo %>
+    <%= form.text_area :memo, id: :book_memo %>
   </div>
 
 +  <div class="field">
-+    <%= f.label :author %><br>
-+    <%= f.text_field :author %>
++    <%= form.label :author %>
++    <%= form.text_field :author, id: :book_author %>
 +  </div>
 
   <div class="actions">
@@ -812,7 +818,15 @@ class BooksController < ApplicationController
 end
 //}
 
+
+StrongParametersにauthorを追加します。
+
+
 === 動作確認
+
+
+rails serverを起動して動作を確認してみましょう。
+
 
 
 //image[add_author_new][新規入力画面]{
@@ -835,7 +849,3 @@ end
 
 各画面にAuthor欄が追加されて、登録できるようになりました。
 
-
-//footnote[1][Rails 4.2の場合、@<tt>{ApplicationRecord}の替わりに@<tt>{ActiveRecord::Base}が使われていますが、考え方は同じです。]
-
-//footnote[2][Rails4.2以前では @<tt>{rails db:migrate} の替わりに @<tt>{bin/rake db:migrate} となります。]

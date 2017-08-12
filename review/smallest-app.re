@@ -2,7 +2,7 @@
 = 一番小さなRailsアプリづくり
 
 
-ここではできるだけ小さい構成のRailsアプリを作ってみます。Railsアプリがどのように動作するのかの説明と、Railsが作るファイルがどのような役割なのか、機能と関連づけて説明していきます。
+ここではできるだけ小さい構成のRailsアプリを作ってみます。Railsアプリがどのように動作するのかの説明と、Railsによって作られたファイルがどのような役割なのか、機能と関連づけて説明していきます。
 
 
 == 一番小さなRailsアプリをつくる
@@ -21,8 +21,7 @@ rails new helloworld
 //cmd{
 $ rails new helloworld
       create
-... (略)
-Bundle complete! 15 Gemfile dependencies, 63 gems now installed.
+...（略）
 Use `bundle show [gemname]` to see where a bundled gem is installed.
          run  bundle exec spring binstub --all
 * bin/rake: spring inserted
@@ -41,12 +40,7 @@ rails s
 //cmd{
 $ rails s
 => Booting Puma
-=> Rails 5.0.0 application starting in development on http://localhost:3000
-=> Run `rails server -h` for more startup options
-Puma starting in single mode...
-* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
-* Min threads: 5, max threads: 5
-* Environment: development
+...（略）
 * Listening on tcp://localhost:3000
 Use Ctrl-C to stop
 //}
@@ -57,19 +51,20 @@ Use Ctrl-C to stop
  * http://localhost:3000
 
 
+
 //image[welcome_rails][Welcome rails]{
 //}
 
 
 
 
-前の章と同じように動作しているかと思います（Rails4.2ではWelcome aboardという画面になります）。ここで実行したコマンド @<tt>{rails s} のsはserverの略で、省略したsでも、省略せずにserverでも、同じように動作します。
+前の章と同じように動作しているかと思います。ここで実行したコマンド @<tt>{rails s} のsはserverの略で、省略したsでも、省略せずにserverでも、同じように動作します。
 
 
 === rails gコマンドでページを作る
 
 
-ひきつづき、以下のコマンドを入力してみましょう。rails serverが起動している場合は、Ctrl-c（controlキーを押しながらcキー）で終了してからコマンドを打ってください。
+ひきつづき、以下のコマンドを入力してみましょう（メッセージ中"in process 50811"の数字は実行するごとに異なります）。rails serverが起動している場合は、Ctrl-c（controlキーを押しながらcキー）で終了してからコマンドを打ってください。
 
 
 //emlist[][bash]{
@@ -111,12 +106,7 @@ rails s
 //cmd{
 $ rails s
 => Booting Puma
-=> Rails 5.0.0 application starting in development on http://localhost:3000
-=> Run `rails server -h` for more startup options
-Puma starting in single mode...
-* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
-* Min threads: 5, max threads: 5
-* Environment: development
+...（略）
 * Listening on tcp://localhost:3000
 Use Ctrl-C to stop
 //}
@@ -125,6 +115,7 @@ Use Ctrl-C to stop
 ブラウザを使い、以下のURLへアクセスします。
 
  * http://localhost:3000/hello/index
+
 
 
 //image[hello_index][hello/index]{
@@ -167,17 +158,32 @@ Use Ctrl-C to stop
 
 //emlist[][diff]{
 <p>Hello world!</p>
-+ <p>現在時刻: <%= Time.now %></p>
++ <p>現在時刻: <%= Time.current %></p>
 //}
 
 
-//image[time_now][現在時刻表示]{
+//image[time_utc][現在時刻表示]{
 //}
 
 
 
 
-表示されましたか？ブラウザをリロードすると、現在時刻が更新されます。アクセスしたそのときの時刻が表示されるアプリになりました。
+表示されましたか？ブラウザをリロードすると、現在時刻が更新される、アクセスしたそのときの時刻が表示されるアプリになりました。
+
+
+
+ところで、現在時刻が9時間ずれていると思われた方もいるかと思います。これは異なるタイムゾーンで表示されているためです。この時刻はUTCタイムゾーンでの時刻です。UTCは協定世界時と呼ばれ、基準となるタイムゾーンとして使われています。日本での時刻はUTCよりも9時間早い時刻になります。プログラムを書き換えて、日本時間での現在時刻を表示させてみましょう@<fn>{1}。
+
+
+//emlist[][diff]{
+- <p>現在時刻: <%= Time.current %></p>
++ <p>現在時刻: <%= Time.current.in_time_zone('Asia/Tokyo') %></p>
+//}
+
+
+//image[time_jst][現在時刻表示]{
+//}
+
 
 
 
@@ -195,7 +201,7 @@ Use Ctrl-C to stop
 //emlist[][diff]{
 class HelloController < ApplicationController
   def index
-+   @time = Time.now
++   @time = Time.current.in_time_zone('Asia/Tokyo')
   end
 end
 //}
@@ -209,7 +215,7 @@ end
 
 
 //emlist[][diff]{
-- <p>現在時刻: <%= Time.now %></p>
+- <p>現在時刻: <%= Time.current.in_time_zone('Asia/Tokyo') %></p>
 + <p>現在時刻: <%= @time %></p>
 //}
 
@@ -234,7 +240,7 @@ end
 
 
 
-Webサーバ上で動作しているWebアプリはリクエストを受け取ると、「レスポンス」としてHTMLで書かれたテキストを作ってブラウザへ返します。レスポンスは「Webアプリが返してきた情報群（HTMLで書かれた表示するの情報を含む）」とイメージできます。HTMLはHyperText Markup Languageのことで、Webページを記述するための言語です。ブラウザはHTMLを解釈して、私たちの見易い、いつも見慣れたWebページを表示します。
+Webサーバ上で動作しているWebアプリはリクエストを受け取ると、「レスポンス」としてHTMLで書かれたテキストを作ってブラウザへ返します。レスポンスは「Webアプリが返してきた情報群（HTMLで書かれた表示する情報を含む）」とイメージできます。HTMLはHyperText Markup Languageのことで、Webページを記述するための言語です。ブラウザはHTMLを解釈して、私たちの見易い、いつも見慣れたWebページを表示します。
 
 
 
@@ -248,7 +254,7 @@ Webサーバ上で動作しているWebアプリはリクエストを受け取�
 
 
 
-Webサーバとはなにものなのでしょうか？Webサーバは「Webサービスを提供する場合に必要な共通の機能を提供するもの」と言えます。Webアプリはブラウザとのやりとりで必要な機能のうち、どのサービスでも使う機能はWebサーバに仕事をまかせ、自分のサービスで必要なオリジナルな機能を提供することになります。RailsではpumaというWebサーバを利用し、rails sをしたときに起動するようになっています。実際のWebサービスを運用して提供する場合は、nginxやApacheといったWebサーバを使うことが多いです。
+Webサーバとはなにものなのでしょうか？Webサーバは「Webサービスを提供する場合に必要な共通の機能を提供するもの」と言えます。Webアプリはブラウザとのやりとりで必要な機能のうち、どのサービスでも使う機能はWebサーバに仕事をまかせ、自分のサービスで必要なオリジナルな機能を提供することに注力します。Railsで開発するときにはpumaというWebサーバを利用する設定になっていて、@<tt>{rails s}を実行すると起動します。実際のWebサービスを運用する場合は、nginxやApacheといったWebサーバを組み合わせて使うことが多いです。
 
 
 
@@ -269,10 +275,11 @@ HTMLはブラウザからも見ることができます。Chromeの場合は、�
 
 
 
-ここまで説明してきた以下の2つが、ブラウザの主な仕事です。
+ここまでに説明してきた以下の2つが、ブラウザの主な仕事です。
 
  * リクエストをWebサーバへ投げる
  * レスポンスで返ってきたHTMLを解釈して表示する
+
 
 == インターネットの向こう側とこちら側
 
@@ -319,6 +326,7 @@ Railsでの基本的な開発の進め方は以下の2つを繰り返すサイ�
 
  * ひな形になるファイル（ソースコードや設定ファイル）の生成
  * つくっているアプリ用にファイルを変更、追記
+
 
 
 実は、さきほどつくったアプリもこの手順で進めていました。
@@ -418,7 +426,11 @@ Running via Spring preloader in process 50811
 
 
 
-ちなみに、前にやったrails g scaffoldもgenerateの種類の1つです。scaffoldは編集、更新、削除といったたくさんの機能を一度につくりますが、rails g controllerの場合は生成するページをつくるシンプルなものです。そのほかにもいくつかのgenerateコマンドが用意されています。もしも、コマンドを間違えて生成したファイルをまとめて削除したい場合は、gをdに替えたコマンドを実行すると、まとめて削除することができます。dはdestroyの略です。
+ちなみに、前にやったrails g scaffoldもgenerateの種類の1つです。scaffoldは編集、更新、削除といったたくさんの機能を一度につくりますが、rails g controllerの場合は生成するページをつくるシンプルなものです。そのほかにもいくつかのgenerateコマンドが用意されています。
+
+
+
+もしも、コマンドを間違えて生成したファイルをまとめて削除したい場合は、gをdに替えたコマンドを実行すると、まとめて削除することができます。dはdestroyの略です。
 
 
 
@@ -427,6 +439,7 @@ Running via Spring preloader in process 50811
  * app/controllers/hello_controller.rb
  * app/views/hello/index.html.erb
  * config/routes.rb
+
 
 
 //image[rails_g_controller][rails g controller hello index コマンドで生成されるファイル]{
@@ -474,7 +487,8 @@ Routesは「リクエストのURLとHTTPメソッド」に応じて次に処理�
  ** HTTPメソッド：GET
 
 
-リクエストを構成する要素のうち、重要なものがURLとHTTPメソッドです。URLはアドレスということもあるように、インターネット上の住所を表します。URLでアクセスする先を指定するのです。もう一方のHTTPメソッドは、そのURLに対して「何をするか」を指示するものです。ブラウザのアドレス欄へURLを入力しEnterを押すと、HTTPメソッド "GET" でリクエストが飛びます。GETは「ページを取得する」の意です。GETのほかにも、HTTPメソッドはいくつかあり、Railsアプリでよく使うものは4つほどです。GET以外のHTTPメソッドは次の章以降で説明していきます。
+
+リクエストを構成する要素のうち、重要なものがURLとHTTPメソッドです。URLはインターネット上の住所を表し、URLでアクセスする先を指定します。もう一方のHTTPメソッドは、そのURLに対して「何をするか」を指示するものです。ブラウザのアドレス欄へURLを入力しEnterを押すと、HTTPメソッド "GET" でリクエストが飛びます。GETは「ページを取得する」の意です。GETのほかにも、HTTPメソッドはいくつかあり、Railsアプリでよく使うものは4つほどです。GET以外のHTTPメソッドは次の章以降で説明していきます。
 
 
 
@@ -499,6 +513,7 @@ Routesの処理を、HTTPメソッドを加えてもう少し詳しくみてみ�
 では、Routesの対応表を見て見ましょう。rails serverを起動させて以下へアクセスすると、Routesの対応表が表示されます。（図参照）
 
  * http://localhost:3000/rails/info/routes
+
 
 
 //image[routes][Routes対応表]{
@@ -543,7 +558,7 @@ get 'hello/index'
 //emlist[][ruby]{
 class HelloController < ApplicationController
   def index
-    @time = Time.now
+    @time = Time.current.in_time_zone('Asia/Tokyo')
   end
 end
 //}
@@ -553,7 +568,7 @@ HelloControllerのindexアクションが呼び出されます。@<tt>{def index
 
 
 
-変数は荷札のようなもので、あとから代入したものにアクセスできるように名前をつける仕組みです。変数のうち、@はじまりの変数のことをインスタンス変数といいます。インスタンス変数を使うと、コントローラから（このあと処理する箇所である）ビューへ情報を伝えることができます。ちなみに、@はじまりではない変数はローカル変数と呼ばれるもので、このメソッド（アクション）を抜けると役目を終えて参照できなくなります。つまり、ローカル変数はビューから参照することができません。ビューから参照するためには@はじまりのインスタンス変数を利用します。
+変数は荷札のようなもので、代入したものにあとからアクセスできるように名前をつける仕組みです。変数のうち、@はじまりの変数のことをインスタンス変数といいます。インスタンス変数を使うと、コントローラから（このあと処理する箇所である）ビューへ情報を伝えることができます。ちなみに、@はじまりではない変数はローカル変数と呼ばれるもので、このメソッド（アクション）を抜けると役目を終えて参照できなくなります。つまり、ローカル変数はビューから参照することができません。ビューから参照するためには@はじまりのインスタンス変数を利用します。
 
 
 
@@ -591,11 +606,11 @@ index.html.erbは、HTMLのもとになるファイルです。ブラウザで�
 //}
 
 
-HTMLのpタグがあります。その中にHTMLにはない @<tt>{<%=} と @<tt>{%>} というタグがあります。これがRubyのコードを実行するためのタグです。ここではその中にはある @<tt>{@time} が実行されます。@timeはコントローラのところで作られたインスタンス変数です。実行すると、変数が指しているもの、つまりコントローラで実行された @<tt>{Time.now} の結果で置き換えられます。このビューで作られたHTMLは、ブラウザで確認することができます。さきほどブラウザから見たように、現在時刻が表示されます（実際には、ビューが作ったHTMLに、Railsがその他の加工を加えて送出します）。
+HTMLのpタグがあります。その中にHTMLではない @<tt>{<%=} と @<tt>{%>} というタグがあります。これがRubyのコードを実行するためのタグです。ここではその中にある @<tt>{@time} が実行されます。@timeはコントローラのところで作られたインスタンス変数です。実行すると、変数が指しているもの、つまりコントローラで実行された @<tt>{Time.current.in_time_zone('Asia/Tokyo')} の結果で置き換えられます。このビューで作られたHTMLは、ブラウザで確認することができます。さきほどブラウザから見たように、現在時刻が表示されます（実際には、ビューが作ったHTMLに、Railsがその他の加工を加えて送出します）。
 
 
 
-//image[time_now_2][ブラウザからビューがつくったHTMLを確認]{
+//image[time_jst][ブラウザからビューがつくったHTMLを確認]{
 //}
 
 
@@ -622,6 +637,7 @@ HTMLのpタグがあります。その中にHTMLにはない @<tt>{<%=} と @<tt
  * コントローラからビューへ情報を伝える場合は@はじまりのインスタンス変数を使う
 
 
+
 //image[rails_app_request_to_response_2][Railsアプリがリクエストを受けてレスポンスを返すまで]{
 //}
 
@@ -630,3 +646,6 @@ HTMLのpタグがあります。その中にHTMLにはない @<tt>{<%=} と @<tt
 == さらに学びたい場合は
  * @<href>{http://railsguides.jp/action_view_overview.html,Rails Guides : Action View の概要}
  ** ビューについての詳しい解説です。
+
+
+//footnote[1][日本でだけ使うアプリであれば、アプリ全体でデフォルトとなるタイムゾーンを日本時間に設定してしまった方が便利です。その場合はconfig/application.rbファイル中で @<tt>{config.time_zone = 'Asia/Tokyo'} と設定します。]

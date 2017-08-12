@@ -14,7 +14,7 @@ Webアプリには基本となる4つの機能があります。ページの新�
 === アプリの作成
 
 
-今回も最初にアプリを作ります。本のタイトルとメモを管理する簡易なアプリです。以前の章で作成した @<tt>{my_web_apps} フォルダの下に新しいアプリを作ります。ターミナルを起動して以下のコマンドを打ちます。
+今回も最初にアプリを作ります。本のタイトルとメモを管理する簡易なアプリです。以前の章で作成した @<tt>{my_web_apps} フォルダの下に新しいアプリを作ります。ターミナルを起動して以下のコマンドを打ちます（メッセージ中の"15 Gemfile dependencies, 62 gems now installed"の数字は異なる場合があります）。
 
 
 //emlist[][bash]{
@@ -26,7 +26,7 @@ rails new books_app
 $ rails new books_app
       create
 ... （略）
-Bundle complete! 15 Gemfile dependencies, 63 gems now installed.
+Bundle complete! 15 Gemfile dependencies, 62 gems now installed.
 Use `bundle show [gemname]` to see where a bundled gem is installed.
          run  bundle exec spring binstub --all
 * bin/rake: spring inserted
@@ -34,7 +34,7 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
 //}
 
 
-次に、以下のコマンドを実行します@<fn>{1}。
+次に、以下のコマンドを実行します（メッセージ中"in process 52142"、"20160702024137"、"-> 0.0013s"の数字は実行するごとに異なります）。
 
 
 //emlist[][bash]{
@@ -52,6 +52,7 @@ Running via Spring preloader in process 52142
 ...
       invoke  scss
       create    app/assets/stylesheets/scaffolds.scss
+
 $ rails db:migrate
 == 20160702024137 CreateBooks: migrating ======================================
 -- create_table(:books)
@@ -60,12 +61,7 @@ $ rails db:migrate
 
 $ rails s
 => Booting Puma
-=> Rails 5.0.0 application starting in development on http://localhost:3000
-=> Run `rails server -h` for more startup options
-Puma starting in single mode...
-* Version 3.4.0 (ruby 2.3.1-p112), codename: Owl Bowl Brawl
-* Min threads: 5, max threads: 5
-* Environment: development
+...（略）
 * Listening on tcp://localhost:3000
 Use Ctrl-C to stop
 //}
@@ -74,6 +70,7 @@ Use Ctrl-C to stop
 ブラウザを起動して以下のURLを入力してアクセスしてみます。
 
  * http://localhost:3000/books
+
 
 
 //image[index_page][起動した画面]{
@@ -125,6 +122,9 @@ scaffoldは英語で「（建築現場などの）足場」という意味です
 
 //cmd{
 $ rails g scaffold book title:string memo:text
+  Running via Spring preloader in process 5809
+  invoke  active_record
+  create    db/migrate/20170603020446_create_books.rb
   create    app/models/book.rb
   invoke    test_unit
   create      test/models/book_test.rb
@@ -148,11 +148,16 @@ $ rails g scaffold book title:string memo:text
   invoke    jbuilder
   create      app/views/books/index.json.jbuilder
   create      app/views/books/show.json.jbuilder
+  create      app/views/books/_book.json.jbuilder
+  invoke  test_unit
+  create    test/system/books_test.rb
   invoke  assets
   invoke    coffee
   create      app/assets/javascripts/books.coffee
   invoke    scss
   create      app/assets/stylesheets/books.scss
+  invoke  scss
+  create    app/assets/stylesheets/scaffolds.scss
 //}
 
 
@@ -246,7 +251,7 @@ Routesでリクエストから次に処理するコントローラとアクシ�
 
 
 
-コントローラの処理を見る前に、Routesのコードを見てみましょう。Routesのコードは @<tt>{config/routes.rb} にあります。コードは以下の図に示すようになっています。
+コントローラの処理を見る前に、Routesのコードを見てみましょう。Routesのコードは @<tt>{config/routes.rb} にあります。コードは以下のようになっています。
 
 
 //emlist[][ruby]{
@@ -290,7 +295,7 @@ class BooksController < ApplicationController
 //}
 
 
-@<tt>{class BooksController < ApplicationController}から最後の行の@<tt>{end}までがBooksControllerのコードです。この中の@<tt>{dev index}から次の@<tt>{end}までがindexアクションになります（対応するendで字下げ（インデント）が揃えて書いてあります）。
+@<tt>{class BooksController < ApplicationController}から最後の行の@<tt>{end}までがBooksControllerのコードです。この中の@<tt>{def index}から次の@<tt>{end}までがindexアクションになります（対応するendで字下げ（インデント）が揃えて書いてあります）。
 
 
 
@@ -312,7 +317,7 @@ class BooksController < ApplicationController
 === ビュー
 
 
-最後はビューでレスポンスで返されるHTMLがつくられます。
+最後はビューでレスポンスとして返されるHTMLがつくられます。
 
 
 
@@ -381,6 +386,7 @@ RailsアプリはつくられたHTMLをレスポンスとしてブラウザに�
  * パスが/books、HTTPメソッドがGETのリクエストはRoutes、コントローラ、ビューの処理を経て一覧画面を表示する
 
 
+
 次の章ではCRUDのCreate（新規作成）について説明します。
 
 
@@ -390,4 +396,3 @@ RailsアプリはつくられたHTMLをレスポンスとしてブラウザに�
  * @<href>{http://railsguides.jp/routing.html,Rails Guides : Rails のルーティング}
  ** routesについての詳しい解説です。
 
-//footnote[1][Rails4.2以前では @<tt>{rails db:migrate} の替わりに @<tt>{bin/rake db:migrate} と実行してください。]

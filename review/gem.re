@@ -90,9 +90,13 @@ Railsアプリは最初からBundlerの仕組みを利用するようになっ�
 //emlist[][ruby]{
 source 'https://rubygems.org'
 
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.0'
+gem 'rails', '~> 5.1.2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 ...
@@ -103,7 +107,7 @@ Railsアプリは最初に作った状態ですでに10個以上のgemが登録�
 
 
 //emlist[][diff]{
-gem 'rails', '~> 5.0.0'
+gem 'rails', '~> 5.1.2'
 + gem 'awesome_print'
 //}
 
@@ -113,11 +117,11 @@ gem 'rails', '~> 5.0.0'
 
 //cmd{
 $ bundle
-Using rake 11.2.2
+Using rake 12.0.0
 ...
 Using awesome_print 1.7.0
 ...
-Bundle complete! 16 Gemfile dependencies, 64 gems now installed.
+Bundle complete! 17 Gemfile dependencies, 71 gems now installed.
 Use `bundle show [gemname]` to see where a bundled gem is installed.
 //}
 
@@ -161,7 +165,7 @@ $ rails c
 == Gemfileに書かれたGemのバージョンアップ
 
 
-各Gemは随時新しいバージョンがリリースされることがあります。Gemfileに書かれたGemの新しいバージョンをインストールしたい場合は@<tt>{bundle update} コマンドを使います。実行すると、新しいバージョンのGemがある場合、バージョンアップしてGemfile.lockファイルを自動で更新します。@<tt>{bundle update}コマンドを実行すると、Gemfile中のすべてのGemがバージョンアップ対象になり、新しいバージョンがあるGemはバージョンアップされます。
+各Gemは随時新しいバージョンがリリースされます。Gemfileに書かれたGemの新しいバージョンをインストールしたい場合は@<tt>{bundle update} コマンドを使います。実行すると、新しいバージョンのGemがある場合、バージョンアップしてGemfile.lockファイルを自動で更新します。@<tt>{bundle update}コマンドを実行すると、Gemfile中のすべてのGemがバージョンアップ対象となり、新しいバージョンの存在するGemはバージョンアップされます。
 
 
 
@@ -216,3 +220,4 @@ gem 'coffee-rails', '~> 4.2'
  * BundlerではGemfileという名前のファイルに使用するGemを書く
  * Gemfileを作成しbundleコマンド（bundle installの省略形）を実行することでGem群をインストールする
  * bundleコマンドを実行するとGemfileに加えてGemfile.lockファイルが生成されるので、両方をソース管理対象にする
+
