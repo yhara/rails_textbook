@@ -18,7 +18,7 @@ Rubyの世界にもライブラリがあり、Gemと呼ばれます。Gemは @<h
 == Gemをインストールして利用する
 
 
-Gemをインストールするにはgem installコマンドを利用します。試しにawesome_printというGemをインストールしてみましょう。
+Gemをインストールするにはgem installコマンドを利用します。例として、pメソッドをより見やすい形で拡張させたapコマンドを提供するawesome_printというGemをインストールしてみましょう。Gemをインストールするにはgem iコマンドを利用します。
 
 
 //emlist[][bash]{
@@ -66,7 +66,7 @@ $ irb
 
 
 
-プログラムで最初に実行した@<tt>{require "awesome_print"}はapを使えるようにするためのコードです。Gemライブラリは、gem installして、require文を実行することで利用できます。
+プログラムで最初に実行した@<tt>{require "awesome_print"}はapを使えるようにするためのコードです。Gemライブラリは、gem installしたあと、require文を実行することで利用できます。使い方はGemごとに異なるため、Gem名で検索してドキュメントを読んでみてください。GitHubのページが用意されていることが多いです。
 
 
 == BundlerとGemfile
@@ -76,7 +76,7 @@ Gemは前述のように、gem installコマンドで簡単にインストール
 
 
 
-BundlerでGem群をインストールするには2つの手順を踏みます。
+BundlerでGem群をインストールするには2つの手順を実行します。
 
 
 
@@ -112,7 +112,7 @@ gem 'rails', '~> 5.1.2'
 //}
 
 
-書いて保存したら、以下のようにbundle installコマンドを実行します。ここで@<tt>{bundle install}と書くことも、また、installを省略して@<tt>{bundle}と書くこともできます。
+書いて保存したら、以下のようにbundle installコマンドを実行します。ここで@<tt>{bundle install}と書くことも、また、installを省略して@<tt>{bundle}と書くこともできます。このコマンドの実行時にはネットワークへ接続が必要なため、少し時間がかかります。
 
 
 //cmd{
@@ -155,21 +155,47 @@ $ rails c
 
 
 
-また、Gemfileを変更してbundleコマンドを実行すると、Gemfile.lockが更新されます。Gemfile.lockは、簡単に言うと使用されたGem名とバージョン情報が記録されています。gitなどでソース管理をしている場合は、両方のファイルを追加して管理してください。
+公開されているRubyで書かれたプログラムにGemfileが添えられていたときにはbundle install コマンドを実行してからプログラムを実行してみましょう。（多くの場合、ドキュメントでその旨が書かれていますが、Rubyistにとって当たり前の動作であるので、ドキュメントで省略されている場合もときどきあります。）
 
 
 
-たとえ話で説明すると、Gemfileはgemをインストールするための発注書です。bundle installコマンドを実行すると、発注書に従ってgemがインストールされます。Gemfile.lockは納品書です。発注書に基づいて実際にインストールされたgemのバージョン情報などが書かれています。
+また、Gemfileを変更してbundleコマンドを実行すると、Gemfile.lockというファイルが作成されます。Gemfile.lockには、使われているGem名とそのバージョン情報が記録されています。Gemfile.lockは自動で作られるものなので、編集する必要はありません。保管するときは、GemfileとGemfile.lockの両方のファイルを保管してください。
+
+
+
+2つのファイルの違いを例え話で説明すると、Gemfileはgemをインストールするための発注書です。Gemfileに使いたいgem名を書いて、bundle installコマンドを実行すると、発注書に従ってgemがインストールされます。Gemfile.lockは納品書です。発注書に基づいて実際にインストールされたgemとそのバージョン情報などが書かれています。
 
 
 == Gemfileに書かれたGemのバージョンアップ
 
 
-各Gemは随時新しいバージョンがリリースされます。Gemfileに書かれたGemの新しいバージョンをインストールしたい場合は@<tt>{bundle update} コマンドを使います。実行すると、新しいバージョンのGemがある場合、バージョンアップしてGemfile.lockファイルを自動で更新します。@<tt>{bundle update}コマンドを実行すると、Gemfile中のすべてのGemがバージョンアップ対象となり、新しいバージョンの存在するGemはバージョンアップされます。
+各Gemは随時新しいバージョンがリリースされます。Gemfileに書かれたGemの新しいバージョンをインストールしたい場合は@<tt>{bundle update} コマンドを使います。実行すると、新しいバージョンのGemがある場合、新しいバージョンのGemをインストールし、Gemfile.lockファイルを更新して上書きします。@<tt>{bundle update}コマンドを実行すると、Gemfile中のすべてのGemがバージョンアップ対象となり、新しいバージョンの存在するGemはバージョンアップされます。
 
 
 
-特定のGemだけをバージョンアップしたい場合は、@<tt>{bundle update Gem名} とGem名を添えて実行すればOKです（この場合、指定したGemだけがバージョンアップされるのではなく、指定したGemが利用している他のGemがある場合は、セットでバージョンアップされます）。
+特定のGemだけをバージョンアップしたい場合は、@<tt>{bundle update Gem名} とGem名を添えて実行すればOKです（指定したGemが利用している他のGemがある場合は、セットでバージョンアップされます）。
+
+
+== Gemfileを使って実行する
+
+
+bundle updateの結果、新しいバージョンのGemがインストールされた場合、古いバージョンのGemはアンインストールされないので、同じGemの複数のバージョンがインストールされた状態になります。通常は新しいバージョンが利用され、それで問題がないケースが多いのですが、Gemfileに書かれたバージョンのGemを使って実行したいケースもあります。
+
+
+
+そのような場合は、bundle exec コマンドを使うことでGemfile, Gemfile.lock に書かれたGemバージョンでrubyのプログラムを実行することができます。
+
+
+//emlist{
+bundle exec rake -T
+//}
+
+
+このように、実行したいコマンドの前にbundle execと書くことで、Gemfile, Gemfile.lockに書かれたバージョンのGemを使って実行します。bundle execに続けて、railsコマンドのほか、rubyコマンド、rakeコマンド、irbコマンドなど、Rubyに関係するあらゆるコマンドを書くことができます。
+
+
+
+今までrailsを@<tt>{bin/rails}コマンドで使ってきました。ここにbundle execを書かなくてもいいのでしょうか？答えは、「書く必要はない」です。bin/以下のコマンドは実行されるときにbundle exec相当の処理を行っています。
 
 
 == Gemfileでのバージョン指定
@@ -196,16 +222,6 @@ gem 'coffee-rails', '~> 4.2'
 
 
 バージョンの表記の仕様は @<href>{http://bundler.io/v1.11/gemfile.html,Bundlerのページ} に解説されています。
-
-
-== Gemの探し方
-
-
-ある用途のGemで定番のものを探したい場合は、 @<href>{https://www.ruby-toolbox.com/,"The Ruby Toolbox"} というサイトが便利です。カテゴリーごとに、その用途のGemがランキング表示されています。
-
-
-
-たとえばグラフを描くGemを探す場合はGraphicsカテゴリの @<href>{https://www.ruby-toolbox.com/categories/graphing,Graphing} というページがあります。ここでグラフを描画するためのGemがランキング形式で紹介されています。説明文から用途にあったものを探したり、ランキングが上位のものをいくつか調べて利用すると良いでしょう。開発が活発かどうかを示すDevelopment activityやLast commit欄も有用な情報です。開発が止まると、RubyやRailsのバージョンアップに追随できなくなるリスクがあるためです。
 
 
 == まとめ
